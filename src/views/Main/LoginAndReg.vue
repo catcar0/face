@@ -24,7 +24,7 @@
                             </i>
                         </el-input>
                         <div class="inputtitle">Your Password</div>
-                        <el-input placeholder="请输入密码" type="password" v-model="password" class="login_password_input">
+                        <el-input placeholder="enter your password" type="password" v-model="password" class="login_password_input">
                             <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                         </el-input>
                     </div>
@@ -63,7 +63,7 @@
                             </i>
                         </el-input>
                         <div class="inputtitle">Your Password</div>
-                        <el-input placeholder="请输入密码" type="password" v-model="password_reg" class="login_password_input">
+                        <el-input placeholder="enter your password" type="password" v-model="password_reg" class="login_password_input">
                             <i slot="prefix" class="el-input__icon el-icon-lock"></i>
                         </el-input>
                     </div>

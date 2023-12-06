@@ -228,7 +228,7 @@ export default {
     },
 
     methods: {
-        //初始化progress cookies
+        //Initialize progress cookies
         initprogress() {
             let data = {
                 pra: 0,
@@ -238,7 +238,7 @@ export default {
             if (cookies.get('progress')) this.progress = cookies.get('progress')
             else cookies.set('progress', data, -1)
         },
-        //退出登录
+        //Sign out
         logout() {
             console.log('logout')
             cookies.remove('login')
@@ -246,7 +246,7 @@ export default {
             // cookies.remove('progress')
             location.reload();
         },
-        //获得当前时间
+        //Get the current time
         getCurrentDate() {
             let now = new Date();
             let year = now.getFullYear();
@@ -279,7 +279,7 @@ export default {
             this.img = v.image
             this.upload(v.file)
         },
-        //答题
+        //mask
         havemask() {
             console.log(this.emo)
             if (this.emo == this.emosel) this.mask = true
@@ -294,7 +294,7 @@ export default {
             this.emo = v
             console.log(this.emo)
         },
-        //获取cookies人员 组成对象
+        //Obtain cookies to the person composition object
         getDictionary() {
             let list = cookies.get('personGroup')
             if (!list) {
@@ -312,19 +312,11 @@ export default {
             });
             this.dictionary = obj
             console.log(this.dictionary, list)
-            // this.dictionary = {
-            //     "角色1": ["person1_a.jpg", "person1_b.jpg"],
-            //     "角色2": ["person2_a.jpg", "person2_b.jpg"],
-            //     "角色3": ["person3_a.jpg", "person3_b.jpg"],
-            //     "角色4": ["person4_a.jpg", "person4_b.jpg"],
-            //     // "角色5": ["person5_a.jpg", "person5_b.jpg"],
-            //     "角色6": ["person6_a.jpg", "person6_b.jpg"]
-            // }
         },
         getOriUrl(url) {
             this.ori_url = url
         },
-        //开始微软人脸识别
+        //Microsoft Face Recognition begins
         start() {
             this.getDictionary()
             // if (this.dictionary !== 0) {
@@ -351,7 +343,7 @@ export default {
                 console.log(error)
             })
         },
-        //上传图片至sm.ms
+        //Upload an image to sm.ms
         upload(fileimg) {
             this.resultloading = true
             const formData = new FormData();
@@ -378,18 +370,18 @@ export default {
             clearTimeout(_this.timeOutEvent);
             _this.timeOutEvent = setTimeout(function () {
                 _this.timeOutEvent = 0;
-                //  处理长按事件...
+                //  Handling long press events...
                 cookies.remove('reglist')
                 cookies.remove('personGroup')
                 Message.success('The user group account has been reset, please register again')
             }, 1000);
         },
-        //手如果在1000毫秒内就释放，则取消长按事件
+        //If the hand is released within 1000 milliseconds, the long press event is canceled
         goTouchend() {
             let _this = this;
             clearTimeout(_this.timeOutEvent);
             if (_this.timeOutEvent !== 0) {
-                //  处理单击事件
+                //  Handle click events
                 _this.logout()
                 Message.success('Logout successful')
             }
