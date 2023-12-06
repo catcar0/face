@@ -23,10 +23,10 @@ export default {
     props: ['shoot', 'img', 'change', 'clear'],
     data() {
         return {
-            nets: "ssdMobilenetv1", // 模型
-            options: null, // 模型参数
-            withBoxes: true, // 边框or轮廓
-            detectFace: "detectSingleFace", // 单or多人脸
+            nets: "ssdMobilenetv1", // model
+            options: null, // Model parameters
+            withBoxes: true, // Borders or outlines
+            detectFace: "detectSingleFace", // Single or multi-faced
             detection: "expression",
             imgEl: null,
             videoEl: null,
@@ -40,13 +40,13 @@ export default {
             constraints: {
                 audio: false,
                 video: {
-                    // frameRate受限带宽传输时，低帧率可能更适宜
+                    // When frameRate is limited bandwidth, a low frame rate may be more suitable
                     frameRate: {
                         min: 15,
                         ideal: 30,
                         max: 60,
                     },
-                    // 显示模式前置后置
+                    // The display mode is front-facing and rear-facing
                     facingMode: "user",
                 },
             },
@@ -67,11 +67,10 @@ export default {
         }
     },
     watch: {
-        //拍照
         shoot() {
             this.setImage()
         },
-        //转换前后置摄像头
+        //Convert the front and rear cameras
         change() {
             console.log('转换前后置')
             // this.constraints.video.facingMode = 'environment'
@@ -83,7 +82,7 @@ export default {
             this.fnClose()
             this.fnOpen()
         },
-        //清除照片
+        //Clear
         clear() {
             this.image = ''
             this.videoEl.play();
@@ -100,7 +99,7 @@ export default {
             await faceapi.nets[this.nets].loadFromUri("models");
             await faceapi.loadFaceLandmarkModel("models");
             await faceapi.loadFaceExpressionModel("models");
-            // 根据模型参数识别调整结果
+            // Identify adjustment results based on model parameters
             switch (this.nets) {
                 case "ssdMobilenetv1":
                     this.options = new faceapi.SsdMobilenetv1Options({
@@ -121,7 +120,7 @@ export default {
                     break;
             }
         },
-        // 启动摄像头视频媒体
+        // Start the camera video media
         fnOpen() {
             if (typeof window.stream === "object") return;
             clearTimeout(this.timeout);
@@ -133,18 +132,18 @@ export default {
                     .catch(this.fnError);
             }, 300);
         },
-        // 成功启动视频媒体流
+        // The video media stream was successfully launched
         fnSuccess(stream) {
-            window.stream = stream; // 使流对浏览器控制台可用
+            window.stream = stream; // Make the flow available to the browser console
             this.videoEl.srcObject = stream;
             this.videoEl.play();
         },
-        // 失败启动视频媒体流
+        // Failed to start video media stream
         fnError(error) {
             console.log(error);
-            alert("视频媒体流获取错误" + error);
+            alert("Failed to start video media stream" + error);
         },
-        // 结束摄像头视频媒体
+        // End the camera video media
         fnClose() {
             this.canvasEl
                 .getContext("2d")
@@ -157,14 +156,11 @@ export default {
                 this.videoEl.srcObject = null;
             }
         },
-        // 拍照
         setImage() {
             document.getElementById('audio').play()
             this.videoEl.pause();
               var _this = this
-            // 点击，canvas画图
               _this.context.drawImage(_this.videoEl, 0, 0)
-            // 获取图片base64链接
             this.image = this.canvasEl.toDataURL('image/jpeg')
             this.fileimg = this.dataURLtoBlob(this.image, 'mypic.jpg')
             console.log(this.image, this.fileimg)
@@ -190,7 +186,7 @@ export default {
         async fnRunFaceExpression() {
             //   console.log("RunFaceExpression");
             if (this.videoEl.paused) return clearTimeout(this.timeout);
-            // 识别绘制人脸信息
+            // Recognize and draw face information
             const result = await faceapi[this.detectFace](this.videoEl, this.options)
                 .withFaceLandmarks()
                 .withFaceExpressions();
